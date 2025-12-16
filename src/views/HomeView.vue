@@ -64,8 +64,10 @@
             </v-card>
         </v-container>
 
-        <v-container max-width="60%">
-            <v-card style="border: 0.1vw solid black"> ide jönnek a google értesítések </v-card>
+        <v-container elevation="0" max-width="60%">
+            <v-card elevation="0" color="transparent" class="d-flex justify-center align-center">
+              <v-btn elevation="4" color="red">Értékelj!</v-btn>
+            </v-card>
         </v-container>
     </div>
 </template>
