@@ -1,0 +1,45 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+/* teljes háttér */
+#app{
+  min-height: 100vh;
+  position: relative;
+  isolation: isolate;          /* <-- ez a kulcs: saját stacking context */
+  background: linear-gradient(90deg, #3a3a3a 0%, #8f8f8f 55%, #ececec 100%);
+}
+
+/* bal oldali sötétebb “gerinc” (mint a képen a fekete sáv) */
+#app::before{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width: 360px;
+  z-index: -2;                 /* biztosan minden mögött */
+  pointer-events:none;
+  background: linear-gradient(90deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,0) 70%);
+}
+
+/* hexa minta – inline SVG data URI (nem fájl) */
+#app::after{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width: 400px;
+  z-index: -1;
+  pointer-events:none;
+  opacity: 0.45;
+
+  background-repeat: repeat-y;
+  background-position: left top;
+  background-size: 300px 360px;
+
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='360' viewBox='0 0 300 360'%3E%3Cdefs%3E%3ClinearGradient id='g1' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%23c62828'/%3E%3Cstop offset='1' stop-color='%23f3b6b6'/%3E%3C/linearGradient%3E%3ClinearGradient id='g2' x1='0' y1='0' x2='1' y2='0'%3E%3Cstop offset='0' stop-color='%238e1b1b'/%3E%3Cstop offset='1' stop-color='%23f0caca'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='300' height='360' fill='none'/%3E%3Cpath d='M80 30 L140 65 L140 135 L80 170 L20 135 L20 65 Z' fill='url(%23g1)' stroke='%23151515' stroke-width='0' stroke-linejoin='round'/%3E%3Cpath d='M200 115 L260 150 L260 220 L200 255 L140 220 L140 150 Z' fill='url(%23g2)' stroke='%23151515' stroke-width='0' stroke-linejoin='round'/%3E%3Cpath d='M80 200 L140 235 L140 305 L80 340 L20 305 L20 235 Z' fill='url(%23g1)' stroke='%23151515' stroke-width='0' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+/* mobilon opcionálisan keskenyebb */
+@media (max-width: 600px){
+  #app::before, #app::after{ width: 180px; }
+}

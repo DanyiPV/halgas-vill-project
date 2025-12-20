@@ -1,103 +1,83 @@
 <template>
-     <v-container
+  <v-container
     fluid
-    height="30vh"
-    class="d-flex justify-center bg-hero position-relative"
-    style="position: relative"
-    >   
-        <div class="text-center px-4 py-2 rounded">
-            <h1 style="font-size: 6vh">Halgas Vill</h1>
-            <p style="font-size: 5vh" class="mt-5">Villany és klíma szerelés</p>
-            <p style="font-size: 2.5vh; font-style: italic" class="mt-5">
-                minőség | megbízhatóság | biztonság
-            </p>
-        </div>
+    class="hero d-flex justify-center align-center position-relative"
+  >
+    <div class="hero-text text-center px-4 py-2">
+      <h1 class="hero-title">Halgas János ev.</h1>
+      <p class="hero-subtitle mt-4">Villany és klímaszerelés</p>
+      <p class="hero-tagline mt-4">minőség <span class="sep">|</span> megbízhatóság <span class="sep">|</span> biztonság</p>
+    </div>
+
+    <div class="logo-wrap">
+      <p>logó</p>
+    </div>
+
+    <div class="hero-socials">
+      <v-btn icon variant="tonal" class="social-btn" @click="openFacebook" aria-label="Facebook">
+        <v-icon size="28">mdi-facebook</v-icon>
+      </v-btn>
+
+      <v-btn icon variant="tonal" class="social-btn" @click="openInstagram" aria-label="Instagram">
+        <v-icon size="28">mdi-instagram</v-icon>
+      </v-btn>
+    </div>
+  </v-container>
+
+  <nav class="nav-bar">
+    <div
+      class="d-flex justify-space-evenly align-center py-2"
+    >
+      <div ref="navEl" class="nav-wrap">
+        <v-btn
+          v-for="item in items"
+          :key="item.name"
+          class="nav-btn"
+          variant="text"
+          elevation="0"
+          color="black"
+          :data-route="item.name"
+          :prepend-icon="item.icon"
+          @click="activeName !== item.name && router.push({ name: item.name })"
+        >
+          <template #prepend>
+            <v-icon color="black" size="22" />
+          </template>
+          {{ item.label }}
+        </v-btn>
 
         <div
-        style="
-            border: 0.1vw solid black;
-            width: 25vh;
-            height: 25vh;
-            position: absolute;
-            left: 10vh;
-            top: 50%;
-            transform: translate(0%, -50%);
-        "
-        >
-        <p>logó</p>
-        </div>
-
+          class="nav-indicator nav-indicator--stretch"
+          :style="{ left: stretchLeft + 'px', width: stretchWidth + 'px' }"
+        ></div>
         <div
-        style="
-            border: 0.1vw solid black;
-            width: 10vh;
-            height: 10vh;
-            position: absolute;
-            right: 1vh;
-            bottom: 1vh;
-        "
-        class="d-flex justify-center align-center"
-        >
-        <div class="d-flex flex-column align-center justify-center ga-2">
-            <div class="d-flex ga-1 align-center">
-            <p>facebook</p>
-            <v-icon size="28">mdi-facebook</v-icon>
-            </div>
-            <div class="d-flex ga-1 align-center">
-            <p>instagram</p>
-            <v-icon size="28">mdi-instagram</v-icon>
-            </div>
-        </div>
-        </div>
-    </v-container>
+          class="nav-indicator nav-indicator--base"
+          :style="{ left: indicatorLeft + 'px', width: indicatorWidth + 'px' }"
+        ></div>
+      </div>
+    </div>
+  </nav>
 
-    <nav>
-        <div
-        class="d-flex justify-space-evenly align-center py-2"
-        style="border-bottom: .1vw solid black;"
-        >
-            <div ref="navEl" class="nav-wrap">
-                <v-btn
-                v-for="item in items"
-                :key="item.name"
-                class="nav-btn"
-                variant="text"
-                elevation="0"
-                color="black"
-                :data-route="item.name"
-                :prepend-icon="item.icon"
-                @click="activeName !== item.name && router.push({ name: item.name })"
-                >
-                <template #prepend>
-                    <v-icon color="black" size="22" />
-                </template>
-                {{ item.label }}
-                </v-btn>
+  <RouterView v-slot="{ Component }">
+    <Transition :name="transitionName" mode="out-in">
+      <component :is="Component" :key="route.fullPath" />
+    </Transition>
+  </RouterView>
 
-                <div class="nav-indicator nav-indicator--stretch"
-                    :style="{ left: stretchLeft+'px', width: stretchWidth+'px' }"></div>
-                <div class="nav-indicator nav-indicator--base"
-                    :style="{ left: indicatorLeft+'px', width: indicatorWidth+'px' }"></div>
-            </div>
-        </div>
-    </nav>
-
-    <RouterView v-slot="{ Component }">
-        <Transition :name="transitionName" mode="out-in">
-            <component :is="Component" :key="route.fullPath" />
-        </Transition>
-    </RouterView>
-
-    <div>ide jön az alja</div>
+  <div>ide jön az alja</div>
 </template>
 
 <script lang="ts" setup>
 import { computed, nextTick, onMounted, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useDisplay } from 'vuetify'
+
+const { mobile } = useDisplay()
 
 const router = useRouter()
 const route = useRoute()
 const navEl = ref<HTMLElement | null>(null)
+const isMobile = computed(() => mobile.value)
 
 const indicatorLeft = ref(0)
 const indicatorWidth = ref(0)
@@ -117,11 +97,10 @@ watch(
   (newOrder) => {
     const order = (newOrder as number) ?? 0
 
-    transitionName.value =
-      order > previousOrder ? 'slide-left' : 'slide-right'
+    transitionName.value = order > previousOrder ? 'slide-left' : 'slide-right'
 
     previousOrder = order
-  }
+  },
 )
 const items = [
   { name: 'home', label: 'Főoldal', icon: 'mdi-home' },
@@ -166,7 +145,6 @@ async function updateIndicator(animated = true) {
     return
   }
 
-  // 1) gyors "nyúlás": a két állapot közti teljes sávot lefedi
   const fromLeft = prevLeft
   const fromRight = prevLeft + prevWidth
   const toLeft = newLeft
@@ -175,11 +153,9 @@ async function updateIndicator(animated = true) {
   stretchLeft.value = Math.min(fromLeft, toLeft)
   stretchWidth.value = Math.max(fromRight, toRight) - stretchLeft.value
 
-  // 2) base indikátor megy a végleges helyre (lassabban)
   indicatorLeft.value = newLeft
   indicatorWidth.value = newWidth
 
-  // 3) a stretch egy kicsit később "összeül" a base-re
   window.setTimeout(() => {
     stretchLeft.value = newLeft
     stretchWidth.value = newWidth
@@ -197,14 +173,31 @@ onMounted(async () => {
 watch(activeName, () => {
   updateIndicator(true)
 })
+
+const openFacebook = () => {
+  window.open(
+    'https://www.facebook.com/share/17mFy5E2rF/',
+    '_blank',
+    'noopener,noreferrer'
+  )
+}
+
+const openInstagram = () => {
+  window.open(
+    'https://www.instagram.com/halgas_vill/',
+    '_blank',
+    'noopener,noreferrer'
+  )
+}
 </script>
 
 <style>
 .bg-hero {
   background-image:
-    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('@/assets/header_pic.jpg');
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
   background-size: cover;
   background-position: center;
+  min-height: 20vh;
 }
 
 .text-gradient {
@@ -226,43 +219,142 @@ watch(activeName, () => {
 .slide-left-leave-active,
 .slide-right-enter-active,
 .slide-right-leave-active {
-  transition: transform 300ms ease, opacity 300ms ease;
+  transition:
+    transform 300ms ease,
+    opacity 300ms ease;
 }
 
-.slide-left-enter-from { transform: translateX(30%); opacity: 0; }
-.slide-left-leave-to   { transform: translateX(-30%); opacity: 0; }
+.slide-left-enter-from {
+  transform: translateX(30%);
+  opacity: 0;
+}
+.slide-left-leave-to {
+  transform: translateX(-30%);
+  opacity: 0;
+}
 
-.slide-right-enter-from { transform: translateX(-30%); opacity: 0; }
-.slide-right-leave-to   { transform: translateX(30%); opacity: 0; }
+.slide-right-enter-from {
+  transform: translateX(-30%);
+  opacity: 0;
+}
+.slide-right-leave-to {
+  transform: translateX(30%);
+  opacity: 0;
+}
+
+.nav-bar {
+  background: rgba(255,255,255,0.92);
+  border-top: 1px solid rgba(0,0,0,0.06);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
 
 .nav-wrap {
   position: relative;
   display: flex;
-  gap: 150px;
   align-items: center;
-  padding-bottom: 10px;
+
+  justify-content: center;
+  gap: clamp(18px, 4vw, 70px);
+
+  padding: 10px 24px 14px;
 }
-
-
-.nav-btn {
-  border-radius: 999px;
-}
-
 
 .nav-indicator {
   position: absolute;
-  bottom: 0;
-  height: 4px;
+  bottom: 4px;
+  height: 3px;
   border-radius: 999px;
-  background: linear-gradient(to left, #ff5a5a, #ffffff);
+
+  background: #C62828;
+
+  box-shadow: 0 6px 16px rgba(198, 40, 40, 0.25);
 }
 
 .nav-indicator--stretch {
-  opacity: .8;
-  transition: left 180ms ease, width 180ms ease;
+  opacity: 0.8;
+  transition:
+    left 180ms ease,
+    width 180ms ease;
 }
 
 .nav-indicator--base {
-  transition: left 300ms cubic-bezier(.2,.8,.2,1), width 300ms cubic-bezier(.2,.8,.2,1);
+  transition:
+    left 300ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    width 300ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
+
+.routeBG{
+  background-image: url("../assets/background.jpg");
+  background-position: bottom;
+  background-size: cover;
+}
+
+.hero{
+  min-height: 30vh;            /* a régi height helyett */
+  padding: 24px 64px;
+}
+
+.hero-text{
+  color: white;
+  max-width: 900px;
+  text-shadow: 0 2px 12px rgba(0,0,0,.35);
+}
+
+.hero-title{
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 800;
+  line-height: 1.05;
+  margin: 0;
+}
+
+.hero-subtitle{
+  font-size: clamp(18px, 2.6vw, 38px);
+  font-weight: 600;
+  margin: 0;
+}
+
+.hero-tagline{
+  font-size: clamp(12px, 1.4vw, 18px);
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: lowercase;
+  opacity: .95;
+  margin: 0;
+}
+
+.hero-tagline .sep{
+  opacity: .7;
+  margin: 0 .5em;
+}
+
+.logo-wrap{
+  position: absolute;
+  left: 64px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: min(25vh, 260px);
+  height: min(25vh, 260px);
+  border: 1px solid rgba(0,0,0,.4);
+}
+
+.hero-socials{
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.social-btn{
+  backdrop-filter: blur(6px);
+}
+
+@media (max-width: 900px){
+  .hero{ padding: 20px 20px; }
+  .logo-wrap{ left: 20px; }
+}
+
+
 </style>
