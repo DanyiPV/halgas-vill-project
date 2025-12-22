@@ -4,22 +4,22 @@
     class="hero d-flex justify-center align-center position-relative"
   >
     <div class="hero-text text-center px-4 py-2">
-      <h1 class="hero-title">Halgas János ev.</h1>
-      <p class="hero-subtitle mt-4">Villany és klímaszerelés</p>
-      <p class="hero-tagline mt-4">minőség <span class="sep">|</span> megbízhatóság <span class="sep">|</span> biztonság</p>
+      <p class="hero-title text-h4">Halgas János ev.</p>
+      <p class="hero-subtitle text-h6 mt-8">Villany és klímaszerelés</p>
+      <p class="hero-tagline mt-2">minőség <span class="sep">|</span> megbízhatóság <span class="sep">|</span> biztonság</p>
     </div>
 
-    <div class="logo-wrap">
+    <div class="logo-wrap" v-if="!isMobile">
       <p>logó</p>
     </div>
 
     <div class="hero-socials">
       <v-btn icon variant="tonal" class="social-btn" @click="openFacebook" aria-label="Facebook">
-        <v-icon size="28">mdi-facebook</v-icon>
+        <v-icon size="40">mdi-facebook</v-icon>
       </v-btn>
 
       <v-btn icon variant="tonal" class="social-btn" @click="openInstagram" aria-label="Instagram">
-        <v-icon size="28">mdi-instagram</v-icon>
+        <v-icon size="34">mdi-instagram</v-icon>  
       </v-btn>
     </div>
   </v-container>
@@ -32,20 +32,16 @@
         <v-btn
           v-for="item in items"
           :key="item.name"
-          class="nav-btn"
+          class="nav-btn d-flex align-center"
           variant="text"
           elevation="0"
           color="black"
           :data-route="item.name"
-          :prepend-icon="item.icon"
           @click="activeName !== item.name && router.push({ name: item.name })"
         >
-          <template #prepend>
-            <v-icon color="black" size="22" />
-          </template>
-          {{ item.label }}
+          <v-icon size="22">{{ item.icon }}</v-icon>
+          <p v-if="!isMobile"  :style="{marginLeft: isMobile ? '0' : '5px'}">{{ item.label }}</p>
         </v-btn>
-
         <div
           class="nav-indicator nav-indicator--stretch"
           :style="{ left: stretchLeft + 'px', width: stretchWidth + 'px' }"
@@ -59,7 +55,7 @@
   </nav>
 
   <RouterView v-slot="{ Component }">
-    <Transition :name="transitionName" mode="out-in">
+    <Transition :name="transitionName" mode="out-in" @after-enter="onAfterEnter">
       <component :is="Component" :key="route.fullPath" />
     </Transition>
   </RouterView>
@@ -189,6 +185,27 @@ const openInstagram = () => {
     'noopener,noreferrer'
   )
 }
+
+async function onAfterEnter() {
+  if (!route.hash) return
+
+  const start = performance.now()
+  const timeoutMs = 2000
+
+  const waitForEl = () =>
+    new Promise<HTMLElement | null>((resolve) => {
+      const tick = () => {
+        const el = document.querySelector(route.hash) as HTMLElement | null
+        if (el) return resolve(el)
+        if (performance.now() - start > timeoutMs) return resolve(null)
+        requestAnimationFrame(tick)
+      }
+      tick()
+    })
+
+  const el = await waitForEl()
+  el?.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' })
+}
 </script>
 
 <style>
@@ -254,7 +271,7 @@ const openInstagram = () => {
   display: flex;
   align-items: center;
 
-  justify-content: center;
+  justify-content: space-between;
   gap: clamp(18px, 4vw, 70px);
 
   padding: 10px 24px 14px;
@@ -291,7 +308,7 @@ const openInstagram = () => {
 }
 
 .hero{
-  min-height: 30vh;            /* a régi height helyett */
+  min-height: 20vh;
   padding: 24px 64px;
 }
 
@@ -333,18 +350,18 @@ const openInstagram = () => {
   left: 64px;
   top: 50%;
   transform: translateY(-50%);
-  width: min(25vh, 260px);
-  height: min(25vh, 260px);
+  width: min(15vh, 260px);
+  height: min(15vh, 260px);
   border: 1px solid rgba(0,0,0,.4);
 }
 
 .hero-socials{
   position: absolute;
-  right: 16px;
-  bottom: 16px;
+  right: 10px;
+  bottom: 10px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 4px;
 }
 
 .social-btn{
@@ -355,6 +372,5 @@ const openInstagram = () => {
   .hero{ padding: 20px 20px; }
   .logo-wrap{ left: 20px; }
 }
-
 
 </style>

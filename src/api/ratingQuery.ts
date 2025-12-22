@@ -25,7 +25,7 @@ export const useGetAllRatings = () =>
 })
 
 
-const addNewRating = async (data: {email: string, nev: string, rating: number, leiras: string}) => {
+const addNewRating = async (data: {email: string, nev: string, rating: number, leiras: string, vercode: number}) => {
     const response = await axiosClient.post('/add-rating', data);
     return response.data
 }
@@ -35,6 +35,41 @@ export const useAddNewRating = () => {
         mutationFn: addNewRating,
         onSuccess: (response) => {
           queryClient.refetchQueries("all-ratings")
+        },
+        onError: (error) => {
+
+        }
+    })
+}
+
+const verifyOtp = async (data: {email: string, nev: string}) => {
+    const response = await axiosClient.post('/send-verify-code', data);
+    return response.data
+}
+
+export const useVerifyOtp = () => {
+    return useMutation({
+        mutationFn: verifyOtp,
+        onSuccess: (response) => {
+
+        },
+        onError: (error) => {
+
+        }
+    })
+}
+
+
+const sendHelpReq = async (data: {email: string, nev: string, telefon: string, leiras: string, vercode: number}) => {
+    const response = await axiosClient.post('/send-help-request', data);
+    return response.data
+}
+
+export const useSendHelpReq = () => {
+    return useMutation({
+        mutationFn: sendHelpReq,
+        onSuccess: (response) => {
+
         },
         onError: (error) => {
 

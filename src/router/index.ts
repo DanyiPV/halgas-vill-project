@@ -12,9 +12,11 @@ const router = createRouter({
         { path: 'services', name: 'services', component: () => import('@/views/ServicesView.vue'), meta: { order: 1 } },
         { path: 'portfolio', name: 'portfolio', component: () => import('@/views/PortfolioView.vue'), meta: { order: 2 } },
         { path: 'contact', name: 'contact', component: () => import('@/views/ContactView.vue'), meta: { order: 3 } },
-      ]
+      ],
     },
-  ]
+  ],
+
+
 })
 
 export default router
