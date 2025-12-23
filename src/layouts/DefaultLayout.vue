@@ -14,13 +14,35 @@
     </div>
 
     <div class="hero-socials">
-      <v-btn icon variant="tonal" class="social-btn" @click="openFacebook" aria-label="Facebook">
-        <v-icon size="40">mdi-facebook</v-icon>
-      </v-btn>
+      <v-tooltip text="Facebook" location="left">
+        <template #activator="{ props }">
+          <v-btn
+            v-bind="props"
+            icon
+            variant="tonal"
+            class="social-btn"
+            @click="openFacebook"
+            aria-label="Facebook"
+          >
+            <v-icon size="34">mdi-facebook</v-icon>
+          </v-btn>
+        </template>
+      </v-tooltip>
 
-      <v-btn icon variant="tonal" class="social-btn" @click="openInstagram" aria-label="Instagram">
-        <v-icon size="34">mdi-instagram</v-icon>  
-      </v-btn>
+      <v-tooltip text="Instagram" location="left">
+        <template #activator="{ props }">
+          <v-btn
+            v-bind="props"
+            icon
+            variant="tonal"
+            class="social-btn"
+            @click="openInstagram"
+            aria-label="Instagram"
+          >
+            <v-icon size="34">mdi-instagram</v-icon>
+          </v-btn>
+        </template>
+      </v-tooltip>
     </div>
   </v-container>
 
@@ -60,7 +82,32 @@
     </Transition>
   </RouterView>
 
-  <div>ide jön az alja</div>
+  <v-footer color="transparent" class="pa-0">
+    <div class="footer-bg">
+      <v-container class="py-6">
+        <v-row class="text-center text-md-left" align="center">
+          <v-col cols="12" md="6" class="mb-4 mb-md-0">
+            <div class="footer-title">Halgas János ev.</div>
+            <div class="footer-subtitle">Villanyszerelés · Hibajavítás · Karbantartás</div>
+          </v-col>
+
+          <v-col cols="12" md="6" class="text-md-right">
+            <div class="footer-links">
+              <a href="/adatkezelesi-tajekoztato">Adatkezelési tájékoztató</a>
+              <span class="divider">•</span>
+              <a href="/impresszum">Impresszum</a>
+            </div>
+          </v-col>
+        </v-row>
+
+        <v-divider class="my-4 footer-divider" />
+
+        <div class="footer-bottom text-center">
+          © {{ new Date().getFullYear() }} Halgas János ev. · Minden jog fenntartva
+        </div>
+      </v-container>
+    </div>
+  </v-footer>
 </template>
 
 <script lang="ts" setup>
@@ -372,5 +419,33 @@ async function onAfterEnter() {
   .hero{ padding: 20px 20px; }
   .logo-wrap{ left: 20px; }
 }
+
+.footer-bg {
+  width: 100%;
+  background: linear-gradient(to top, #2b2b2b 0%, #333 70%, #3a3a3a 100%);
+  color: #e0e0e0;
+}
+
+/* szép, finom átmenet a tetején */
+.footer-bg::before {
+  content: "";
+  display: block;
+  height: 14px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.08), rgba(255,255,255,0));
+}
+
+/* szövegek */
+.footer-title { font-size: 16px; font-weight: 700; color: #fff; }
+.footer-subtitle { font-size: 13px; color: #bdbdbd; }
+
+.footer-links a { color: #e0e0e0; text-decoration: none; font-size: 13px; }
+.footer-links a:hover { text-decoration: underline; }
+.divider { margin: 0 8px; color: #777; }
+
+.footer-bottom { font-size: 12px; color: #aaa; }
+
+/* divider színe sötét alapon */
+.footer-divider { opacity: 0.25; }
+
 
 </style>

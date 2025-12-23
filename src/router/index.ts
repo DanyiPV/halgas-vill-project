@@ -14,6 +14,16 @@ const router = createRouter({
         { path: 'contact', name: 'contact', component: () => import('@/views/ContactView.vue'), meta: { order: 3 } },
       ],
     },
+    {
+      path: '/adatkezelesi-tajekoztato',
+      name: 'adatkezeles',
+      component: () => import('@/views/DataManagementView.vue'),
+    },
+    {
+      path: '/impresszum',
+      name: 'impresszum',
+      component: () => import('@/views/ImpresszumView.vue'),
+    }
   ],
 
 

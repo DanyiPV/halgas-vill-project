@@ -529,7 +529,7 @@ const isHelpRequestDisabled = computed(() => {
 function isValidHuPhone(phone) {
   if (!phone) return false;
 
-  const p = phone.replace(/\s|-/g, ""); // szóköz, kötőjel eldobás
+  const p = phone.replace(/\s|-/g, "");
   return /^(\+36|06)\d{9}$/.test(p);
 }
 
@@ -550,7 +550,6 @@ const isValidEmail = (email: string) =>
   transition: color 0.3s ease, transform 0.2s ease;
 }
 
-/* háttérkép réteg */
 .service-card::before {
   content: '';
   position: absolute;
@@ -562,7 +561,6 @@ const isValidEmail = (email: string) =>
   transform: scale(1.05);
 }
 
-/* sötét overlay */
 .service-card::after {
   content: '';
   position: absolute;
@@ -578,7 +576,6 @@ const isValidEmail = (email: string) =>
   transition: color 0.3s ease;
 }
 
-/* desktop hover */
 @media (hover: hover) and (pointer: fine) {
   .service-card:hover::before {
     opacity: 1;
@@ -598,7 +595,6 @@ const isValidEmail = (email: string) =>
   }
 }
 
-/* mobil / touch: mindig látszódjon */
 @media (hover: none) and (pointer: coarse) {
   .service-card::before {
     opacity: 1;
@@ -607,25 +603,24 @@ const isValidEmail = (email: string) =>
 
   .service-card::after {
     opacity: 1;
-    background: rgba(0, 0, 0, 0.35); /* picit enyhébb */
+    background: rgba(0, 0, 0, 0.35);
   }
 
   .service-card p {
     color: white;
   }
 
-  /* tap feedback */
   .service-card:active {
     transform: scale(0.98);
   }
 }
 
 .service-electric::before {
-  background-image: url('@/assets/light_bulb.jpg');
+  background-image: url('@/assets/light_bulb.png');
 }
 
 .service-ac::before {
-  background-image: url('../assets/air_conditioner.jpeg');
+  background-image: url('../assets/air_conditioner.png');
 }
 
 
