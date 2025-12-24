@@ -9,9 +9,6 @@
       <p class="hero-tagline mt-2">minőség <span class="sep">|</span> megbízhatóság <span class="sep">|</span> biztonság</p>
     </div>
 
-    <div class="logo-wrap" v-if="!isMobile">
-    </div>
-
     <div class="hero-socials">
       <v-tooltip text="Facebook" location="left">
         <template #activator="{ props }">
