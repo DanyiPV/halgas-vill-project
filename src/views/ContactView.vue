@@ -48,9 +48,10 @@
           </v-col>
           <v-col cols="12" sm="6" lg="4" :order="isMobile ? 1 : 2" :class="isMobile ? 'mb-4' : ''">
             <v-card elevation="0" class="d-flex justify-center align-center" color="transparent" height="100%">
-              <div style="border: .1vw solid black; height: 22vh; width: 100%;">
-                ide jön a kép
-              </div>
+              <div
+                style="height:inherit; width:100%; background-position:center; background-size:cover;"
+                :style="{ backgroundImage: `url(${contactPfp})` }"
+              ></div>
             </v-card>
           </v-col>
         </v-row>
@@ -111,6 +112,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from "vue";
 import { useDisplay } from 'vuetify'
+import contactPfp from "@/assets/contact_pfp.png";
 
 const { mobile } = useDisplay()
 
@@ -166,7 +168,7 @@ function parseRecommendedProfessionals(text: string): RecommendedProfessional[] 
 }
 
 async function loadRecommended() {
-  const res = await fetch("../../public/recProfs.txt");
+  const res = await fetch("/recProfs.txt");
   const text = await res.text();
   recommended.value = parseRecommendedProfessionals(text);
 }

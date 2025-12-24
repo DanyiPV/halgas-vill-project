@@ -357,9 +357,11 @@ import { useGetRatings, useGetAllRatings, useAddNewRating, useVerifyOtp, useSend
 import { useDisplay } from 'vuetify'
 import { useRoute } from 'vue-router'
 import helpbg from '@/assets/miben_segithetek.png'
+import { ShowErrorKey, ShowSuccessKey } from "@/injectionKeys";
+import axios from "axios";
 
-const showError = inject("showError");
-const showSucces = inject("showSucces");
+const showError = inject(ShowErrorKey)!;
+const showSucces = inject(ShowSuccessKey)!;
 
 const { data: rating } = useGetRatings()
 const { data: ratingItems } = useGetAllRatings()
@@ -404,12 +406,17 @@ const addRating = async () => {
         console.log("Értesítés sikeresen elküldve!");
       }
     },
-    onError: (error) =>{
-      ratingBtnLoading.value = false
+    onError: (error: unknown) => {
+      ratingBtnLoading.value = false;
+
+      const msg = axios.isAxiosError(error)
+        ? (error.response?.data ?? error.message)
+        : String(error);
+
       if (showError) {
-        showError(error.response.data);
-      }else{
-        console.log(error.response.data);
+        showError(String(msg));
+      } else {
+        console.log(msg);
       }
     }
   }
@@ -428,12 +435,17 @@ const verifyOtpBtn = async () => {
         console.log("Email sikeresen elküldve!");
       }
     },
-    onError: (error) =>{
-      verificationBtnLoading.value = false
+    onError: (error: unknown) => {
+      ratingBtnLoading.value = false;
+
+      const msg = axios.isAxiosError(error)
+        ? (error.response?.data ?? error.message)
+        : String(error);
+
       if (showError) {
-        showError(error.response.data);
-      }else{
-        console.log(error.response.data);
+        showError(String(msg));
+      } else {
+        console.log(msg);
       }
     }
   }
@@ -452,12 +464,17 @@ const sendHelpVerificationCode = async () => {
         console.log("Email sikeresen elküldve!");
       }
     },
-    onError: (error) =>{
-      helpBtnLoading.value = false;
+    onError: (error: unknown) => {
+      ratingBtnLoading.value = false;
+
+      const msg = axios.isAxiosError(error)
+        ? (error.response?.data ?? error.message)
+        : String(error);
+
       if (showError) {
-        showError(error.response.data);
-      }else{
-        console.log(error.response.data);
+        showError(String(msg));
+      } else {
+        console.log(msg);
       }
     }
   }
@@ -476,12 +493,17 @@ const sendHelpRequest = async () => {
         console.log("Értesítés sikeresen elküldve!");
       }
     },
-    onError: (error) =>{
-      verificationBtnLoading.value = false
+    onError: (error: unknown) => {
+      ratingBtnLoading.value = false;
+
+      const msg = axios.isAxiosError(error)
+        ? (error.response?.data ?? error.message)
+        : String(error);
+
       if (showError) {
-        showError(error.response.data);
-      }else{
-        console.log(error.response.data);
+        showError(String(msg));
+      } else {
+        console.log(msg);
       }
     }
   }
@@ -526,7 +548,7 @@ const isHelpRequestDisabled = computed(() => {
   );
 });
 
-function isValidHuPhone(phone) {
+function isValidHuPhone(phone: string) {
   if (!phone) return false;
 
   const p = phone.replace(/\s|-/g, "");

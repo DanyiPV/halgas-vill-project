@@ -21,7 +21,7 @@ const visible = ref(false);
 const errorMessage = ref("");
 
 // A showError metódus, amit a szülő komponenstől hívhatunk
-const showError = (message) => {
+const showError = (message : string) => {
     errorMessage.value = message;
     visible.value = true;
 
@@ -30,7 +30,5 @@ const showError = (message) => {
     }, 3000);
 };
 
-defineExpose({
-    showError,
-});
+defineExpose({ showError });
 </script>

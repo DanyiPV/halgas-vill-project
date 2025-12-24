@@ -74,7 +74,7 @@ const Villanyszereles = ref<string[]>([]);
 const Legkondicionalo = ref<string[]>([]);
 
 const loadTxt = async () => {
-  const res = await fetch("/public/services.txt");
+  const res = await fetch("/services.txt");
   const text = await res.text();
 
   const lines = text.split("\n").map(l => l.trim());

@@ -34,7 +34,7 @@ export const useAddNewRating = () => {
     return useMutation({
         mutationFn: addNewRating,
         onSuccess: (response) => {
-          queryClient.refetchQueries("all-ratings")
+          queryClient.refetchQueries({ queryKey: ["all-ratings"], exact: true });
         },
         onError: (error) => {
 

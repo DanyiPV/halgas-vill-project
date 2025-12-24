@@ -1,39 +1,23 @@
 <script setup lang="ts">
-import { ref, provide, nextTick } from "vue";
+import { ref, provide } from "vue";
+import ErrorHandler from "@/components/ErrorHandler.vue";
+import SuccessHandler from "@/components/SuccesHandler.vue";
+import { ShowErrorKey, ShowSuccessKey } from "@/injectionKeys";
 
-import ErrorHandler from "../src/components/ErrorHandler.vue";
-import SuccesHandler from "../src/components/SuccesHandler.vue";
-const errorHandler = ref(null);
-const succesHandler = ref(null);
+const errorHandler = ref<InstanceType<typeof ErrorHandler> | null>(null);
+const successHandler = ref<InstanceType<typeof SuccessHandler> | null>(null);
 
-provide("showError", (msg) => {
-  nextTick(() => {
-    if (errorHandler.value) {
-      errorHandler.value.showError(msg);
-    } else {
-      console.log("errorHandler még nem elérhető");
-    }
-  });
+provide(ShowErrorKey, (msg: string) => {
+  errorHandler.value?.showError(msg);
 });
 
-provide("showSucces", (msg) => {
-  nextTick(() => {
-    if (succesHandler.value) {
-      succesHandler.value.showSucces(msg);
-    } else {
-      console.log("succesHandler még nem elérhető");
-    }
-  });
+provide(ShowSuccessKey, (msg: string) => {
+  successHandler.value?.showSucces(msg);
 });
-
 </script>
 
 <template>
-  <RouterView></RouterView>
-
   <ErrorHandler ref="errorHandler" />
-
-  <SuccesHandler ref="succesHandler" />
+  <SuccessHandler ref="successHandler" />
+  <router-view />
 </template>
-
-<style scoped></style>

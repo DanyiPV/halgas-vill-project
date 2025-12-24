@@ -5,12 +5,11 @@
   >
     <div class="hero-text text-center px-4 py-2">
       <p class="hero-title text-h4">Halgas János ev.</p>
-      <p class="hero-subtitle text-h6 mt-8">Villany és klímaszerelés</p>
+      <p class="hero-subtitle text-h6 mt-2">Villany és klímaszerelés</p>
       <p class="hero-tagline mt-2">minőség <span class="sep">|</span> megbízhatóság <span class="sep">|</span> biztonság</p>
     </div>
 
     <div class="logo-wrap" v-if="!isMobile">
-      <p>logó</p>
     </div>
 
     <div class="hero-socials">
@@ -88,7 +87,7 @@
         <v-row class="text-center text-md-left" align="center">
           <v-col cols="12" md="6" class="mb-4 mb-md-0">
             <div class="footer-title">Halgas János ev.</div>
-            <div class="footer-subtitle">Villanyszerelés · Hibajavítás · Karbantartás</div>
+            <div class="footer-subtitle">Villanyszerelés · Klímaszerelés · Karbantartás</div>
           </v-col>
 
           <v-col cols="12" md="6" class="text-md-right">
@@ -394,12 +393,14 @@ async function onAfterEnter() {
 
 .logo-wrap{
   position: absolute;
-  left: 64px;
+  left: 30vh;
   top: 50%;
   transform: translateY(-50%);
-  width: min(15vh, 260px);
+  width: min(16vh, 260px);
   height: min(15vh, 260px);
-  border: 1px solid rgba(0,0,0,.4);
+  background-image: url('@/assets/logo.png');
+  background-position: center;
+  background-size: cover;
 }
 
 .hero-socials{
