@@ -5,7 +5,7 @@
     :style="{
       maxWidth: $vuetify.display.smAndDown ? '90%' : '60%'
     }">
-      <v-row justify="space-between" :no-gutters="isMobile">
+      <v-row justify="space-between">
         <v-col cols="12" sm="6" lg="6" :class="isMobile ? 'mb-4' : ''">
           <v-card
             elevation="5"
@@ -42,7 +42,7 @@
         <div class="d-flex align-center">
           <div :style="{width : isMobile ? '100%' : '90%'}">
             <div class="d-flex ga-4 px-4">
-              <v-row class="mx-0" :no-gutters="isMobile">
+              <v-row class="mx-0">
                 <v-col cols="12" md="5">
                   <v-text-field
                     label="e-mail"
@@ -99,7 +99,7 @@
                 </v-col>
               </v-row>
             </div>
-            <div style="width: 97%;" class="d-flex px-4 mx-auto">
+            <div style="width: 97%;" :style="{width: isMobile ? '92%' : '97%'}" class="d-flex px-4 mx-auto">
               <v-textarea
               no-resize
               :rows="isMobile ? 10 : 5"

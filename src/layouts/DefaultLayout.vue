@@ -393,11 +393,11 @@ async function onAfterEnter() {
 
 .logo-wrap{
   position: absolute;
-  left: 30vh;
+  left: 15%;
   top: 50%;
   transform: translateY(-50%);
-  width: min(16vh, 260px);
-  height: min(15vh, 260px);
+  width: min(20vh, 260px);
+  height: min(19vh, 260px);
   background-image: url('@/assets/logo.png');
   background-position: center;
   background-size: cover;

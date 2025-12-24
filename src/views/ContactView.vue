@@ -1,24 +1,31 @@
 <template>
     <div class="page">
       <v-container class="d-flex align-center justify-center ga-5">
-        <v-row :no-gutters="isMobile">
-          <v-col cols="12" sm="6" lg="8" :order="isMobile ? 2 : 1">
-            <v-card class="pa-4">
+        <!-- FONTOS: ne kapcsold be a no-gutters-t mdAndDown-ra, mert akkor eltűnik a “gap” -->
+        <v-row class="align-stretch" :no-gutters="false">
+          <!-- Bal: infó -->
+          <v-col cols="12" md="8" lg="8">
+            <!-- h-100 hogy a két oldal azonos magasságra tudjon nyúlni -->
+            <v-card class="pa-4 h-100">
               <p class="text-h3 mb-5">Halgas János</p>
+
               <div class="d-flex flex-column ga-4 mb-2">
                 <div class="d-flex align-center">
                   <v-icon start class="gradient-icon">mdi-email-outline</v-icon>
                   <p style="width: min-content;">info@halgasvill.hu</p>
                 </div>
-                <div  class="d-flex align-center">
+
+                <div class="d-flex align-center">
                   <v-icon start class="gradient-icon">mdi-phone-outline</v-icon>
                   <p>+36 20 / 325-5394</p>
                 </div>
-                <div  class="d-flex align-center">
+
+                <div class="d-flex align-center">
                   <v-icon start class="gradient-icon">mdi-map-marker-outline</v-icon>
                   <p>Dánszentmiklós, Dózsa György u. 23/A, 2735</p>
                 </div>
-                <div  class="d-flex align-center">
+
+                <div class="d-flex align-center">
                   <v-icon start class="gradient-icon">mdi-file-document-outline</v-icon>
                   <p>90830318-1-33</p>
                 </div>
@@ -33,29 +40,36 @@
                 <v-card-text>
                   <v-responsive aspect-ratio="16/9" min-height="25vh">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2691.238814836485!2d19.553068076421882!3d47.20868087115996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47419c959b331ddf%3A0x318c2974f5197ec1!2sD%C3%A1nszentmikl%C3%B3s%2C%20D%C3%B3zsa%20Gy%C3%B6rgy%20u.%2023%2FA%2C%202735!5e0!3m2!1shu!2shu!4v1734102500000!5m2!1shu!2shu"
-                        width="100%"
-                        height="100%"
-                        style="border:0;"
-                        allowfullscreen
-                        loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2691.238814836485!2d19.553068076421882!3d47.20868087115996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47419c959b331ddf%3A0x318c2974f5197ec1!2sD%C3%A1nszentmikl%C3%B3s%2C%20D%C3%B3zsa%20Gy%C3%B6rgy%20u.%2023%2FA%2C%202735!5e0!3m2!1shu!2shu!4v1734102500000!5m2!1shu!2shu"
+                      width="100%"
+                      height="100%"
+                      style="border:0;"
+                      allowfullscreen
+                      loading="lazy"
+                      referrerpolicy="no-referrer-when-downgrade"
                     ></iframe>
                   </v-responsive>
                 </v-card-text>
               </v-card>
             </v-card>
           </v-col>
-          <v-col cols="12" sm="6" lg="4" :order="isMobile ? 1 : 2" :class="isMobile ? 'mb-4' : ''">
-            <v-card elevation="0" class="d-flex justify-center align-center" color="transparent" height="100%">
-              <div
-                style="height:inherit; width:100%; background-position:center; background-size:cover;"
-                :style="{ backgroundImage: `url(${contactPfp})` }"
-              ></div>
+
+          <!-- Jobb: kép -->
+          <v-col cols="12" md="4" lg="4">
+            <v-card elevation="0" class="h-100" color="transparent">
+              <div class="pfp-box">
+                <v-img
+                  :src="contactPfp"
+                  cover
+                  class="pfp-img rounded"
+                  :style="{width: smAndDown ? '50%' : '75%'}"
+                />
+              </div>
             </v-card>
           </v-col>
         </v-row>
       </v-container>
+
 
       <v-container>
         <v-card elevation="4" class="d-flex align-center justify-center py-2">
@@ -114,7 +128,7 @@ import { ref, onMounted, computed } from "vue";
 import { useDisplay } from 'vuetify'
 import contactPfp from "@/assets/contact_pfp.png";
 
-const { mobile } = useDisplay()
+const { mobile, smAndDown  } = useDisplay()
 
 export type RecommendedProfessional = {
   szakma: string;
@@ -188,6 +202,18 @@ const lgCols = computed(() => (recommended.value.length <= 2 ? 5 : 4));
   background: linear-gradient(45deg, #ff4b4b, #a7a7a7);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.pfp-box{
+  height: 100%;
+  display: flex;
+  align-items: center;    /* függőleges közép */
+  justify-content: center;/* vízszintes közép */
+}
+
+.pfp-img{
+  max-height: 100%;
+  flex: 0 0 auto;         /* NE nyúljon flexben */
 }
 
 </style>
